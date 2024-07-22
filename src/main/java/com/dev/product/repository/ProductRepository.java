@@ -12,11 +12,4 @@ import java.util.List;
  */
 @Repository
 public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
-    /**
-     * Finds products by their name.
-     *
-     * @param name the name of the product to search for
-     * @return a list of ProductEntity objects matching the given name
-     */
-    List<ProductEntity> findByName(String name);
 }
