@@ -26,11 +26,18 @@ class ProductServiceTest {
     @InjectMocks
     private ProductServiceImpl productService;
 
+    /**
+     * Sets up the Mockito annotations before each test method.
+     */
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
     }
 
+    /**
+     * Test case for finding all products.
+     * Verifies that the service returns the list of products obtained from the repository.
+     */
     @Test
     void testFindAllProducts() {
         // Arrange
@@ -48,6 +55,10 @@ class ProductServiceTest {
         verify(productRepository, times(1)).findAll();
     }
 
+    /**
+     * Test case for finding a product by ID when the ID exists.
+     * Verifies that the service returns the product with the specified ID.
+     */
     @Test
     void testFindById_ExistingId() {
         // Arrange
@@ -64,6 +75,10 @@ class ProductServiceTest {
         verify(productRepository, times(1)).findById(productId);
     }
 
+    /**
+     * Test case for finding a product by ID when the ID does not exist.
+     * Verifies that the service returns an empty Optional.
+     */
     @Test
     void testFindById_NonExistingId() {
         // Arrange
@@ -78,6 +93,10 @@ class ProductServiceTest {
         verify(productRepository, times(1)).findById(productId);
     }
 
+    /**
+     * Test case for saving a new product.
+     * Verifies that the service saves the product using the repository and returns the saved product.
+     */
     @Test
     void testSaveProduct() {
         // Arrange
@@ -92,6 +111,10 @@ class ProductServiceTest {
         verify(productRepository, times(1)).save(product);
     }
 
+    /**
+     * Test case for updating an existing product.
+     * Verifies that the service updates the product using the repository and returns the updated product.
+     */
     @Test
     void testUpdateProduct_ExistingId() {
         // Arrange
@@ -110,6 +133,10 @@ class ProductServiceTest {
         verify(productRepository, times(1)).save(existingProduct);
     }
 
+    /**
+     * Test case for updating a non-existing product.
+     * Verifies that the service throws a ResourceNotFoundException when trying to update a non-existing product.
+     */
     @Test
     void testUpdateProduct_NonExistingId() {
         // Arrange
@@ -123,6 +150,10 @@ class ProductServiceTest {
         verify(productRepository, never()).save(any(ProductEntity.class));
     }
 
+    /**
+     * Test case for deleting an existing product.
+     * Verifies that the service deletes the product using the repository.
+     */
     @Test
     void testDeleteProduct_ExistingId() {
         // Arrange
@@ -139,6 +170,10 @@ class ProductServiceTest {
         verify(productRepository, times(1)).deleteById(productId);
     }
 
+    /**
+     * Test case for deleting a non-existing product.
+     * Verifies that the service throws a ResourceNotFoundException when trying to delete a non-existing product.
+     */
     @Test
     void testDeleteProduct_NonExistingId() {
         // Arrange

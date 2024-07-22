@@ -32,11 +32,14 @@ class ProductIntegrationTests {
     @Autowired
     private ObjectMapper objectMapper;
 
-    private List<ProductEntity> testProducts = new ArrayList<>();
+    private final List<ProductEntity> testProducts = new ArrayList<>();
 
+    /**
+     * Cleans up the test data after each test method.
+     * Finds and deletes test products based on their individual names.
+     */
     @AfterEach
     void tearDown() {
-        // Find and delete test products based on their individual names
         List<ProductEntity> productsToDelete = new ArrayList<>();
         productsToDelete.addAll(productRepository.findByName("Product 1"));
         productsToDelete.addAll(productRepository.findByName("Product 2"));
@@ -46,6 +49,10 @@ class ProductIntegrationTests {
         testProducts.clear();
     }
 
+    /**
+     * Test case for creating a new product.
+     * Verifies that the API returns the created product with HTTP status OK.
+     */
     @Test
     void testCreateProduct() throws Exception {
         // Arrange
@@ -64,6 +71,10 @@ class ProductIntegrationTests {
                 .andExpect(jsonPath("$.description", is(product.getDescription())));
     }
 
+    /**
+     * Test case for retrieving all products.
+     * Verifies that the API returns a list of products with HTTP status OK.
+     */
     @Test
     void testGetAllProducts() throws Exception {
         // Arrange
@@ -79,6 +90,10 @@ class ProductIntegrationTests {
         response.andExpect(status().isOk());
     }
 
+    /**
+     * Test case for retrieving a product by ID.
+     * Verifies that the API returns the product with the specified ID and HTTP status FOUND.
+     */
     @Test
     void testGetProductById() throws Exception {
         // Arrange
@@ -96,6 +111,10 @@ class ProductIntegrationTests {
                 .andExpect(jsonPath("$.description", is(product.getDescription())));
     }
 
+    /**
+     * Test case for updating a product.
+     * Verifies that the API returns the updated product with HTTP status OK.
+     */
     @Test
     void testUpdateProduct() throws Exception {
         // Arrange
@@ -117,6 +136,10 @@ class ProductIntegrationTests {
                 .andExpect(jsonPath("$.description", is(updatedProduct.getDescription())));
     }
 
+    /**
+     * Test case for deleting a product.
+     * Verifies that the API returns HTTP status NO_CONTENT after deleting the product.
+     */
     @Test
     void testDeleteProduct() throws Exception {
         // Arrange
