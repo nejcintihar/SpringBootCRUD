@@ -1,6 +1,6 @@
-package com.dev.product.GlobalExceptionHandler;
+package com.dev.product.globalexceptionhandler;
 
-import com.dev.product.ErrorResponse.CustomErrorResponse;
+import com.dev.product.errorresponse.CustomErrorResponse;
 import com.dev.product.exception.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

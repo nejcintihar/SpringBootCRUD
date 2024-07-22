@@ -1,4 +1,4 @@
-package com.dev.product.ErrorResponse;
+package com.dev.product.errorresponse;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
