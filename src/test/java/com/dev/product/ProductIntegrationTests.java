@@ -3,7 +3,6 @@ package com.dev.product;
 import com.dev.product.entity.ProductEntity;
 import com.dev.product.repository.ProductRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -32,23 +31,6 @@ class ProductIntegrationTests {
     @Autowired
     private ObjectMapper objectMapper;
 
-    private final List<ProductEntity> testProducts = new ArrayList<>();
-
-    /**
-     * Cleans up the test data after each test method.
-     * Finds and deletes test products based on their individual names.
-     */
-    @AfterEach
-    void tearDown() {
-        List<ProductEntity> productsToDelete = new ArrayList<>();
-        productsToDelete.addAll(productRepository.findByName("Product 1"));
-        productsToDelete.addAll(productRepository.findByName("Product 2"));
-        productsToDelete.addAll(productRepository.findByName("Updated Product"));
-        productsToDelete.addAll(productRepository.findByName("test"));
-        productRepository.deleteAll(productsToDelete);
-        testProducts.clear();
-    }
-
     /**
      * Test case for creating a new product.
      * Verifies that the API returns the created product with HTTP status OK.
@@ -57,7 +39,6 @@ class ProductIntegrationTests {
     void testCreateProduct() throws Exception {
         // Arrange
         ProductEntity product = new ProductEntity(null, "Product 1", "10.00", "Description 1");
-        testProducts.add(product);
 
         // Act
         ResultActions response = mockMvc.perform(post("/products")
@@ -81,7 +62,7 @@ class ProductIntegrationTests {
         List<ProductEntity> products = new ArrayList<>();
         products.add(new ProductEntity(null, "Product 1", "10.00", "Description 1"));
         products.add(new ProductEntity(null, "Product 2", "20.00", "Description 2"));
-        testProducts.addAll(productRepository.saveAll(products));
+        productRepository.saveAll(products);
 
         // Act
         ResultActions response = mockMvc.perform(get("/products"));
@@ -99,7 +80,6 @@ class ProductIntegrationTests {
         // Arrange
         ProductEntity product = new ProductEntity(null, "Product 1", "10.00", "Description 1");
         ProductEntity savedProduct = productRepository.save(product);
-        testProducts.add(savedProduct);
 
         // Act
         ResultActions response = mockMvc.perform(get("/products/{id}", savedProduct.getId()));
@@ -120,7 +100,6 @@ class ProductIntegrationTests {
         // Arrange
         ProductEntity product = new ProductEntity(null, "Product 1", "10.00", "Description 1");
         ProductEntity savedProduct = productRepository.save(product);
-        testProducts.add(savedProduct);
 
         ProductEntity updatedProduct = new ProductEntity(savedProduct.getId(), "Updated Product", "20.00", "Updated Description");
 
@@ -145,7 +124,6 @@ class ProductIntegrationTests {
         // Arrange
         ProductEntity product = new ProductEntity(null, "Product 1", "10.00", "Description 1");
         ProductEntity savedProduct = productRepository.save(product);
-        testProducts.add(savedProduct);
 
         // Act
         ResultActions response = mockMvc.perform(delete("/products/{id}", savedProduct.getId()));
